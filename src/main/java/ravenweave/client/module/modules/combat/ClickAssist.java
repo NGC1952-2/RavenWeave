@@ -19,7 +19,7 @@ public class ClickAssist extends Module {
     public static SliderSetting chance;
     public static TickSetting L;
     public static TickSetting R;
-    public static TickSetting blocksOnly;
+    public static TickSetting swordsOnly;
     public static TickSetting weaponOnly;
     public static TickSetting onlyWhileTargeting;
     public static TickSetting above5;
@@ -36,7 +36,7 @@ public class ClickAssist extends Module {
         this.registerSetting(weaponOnly = new TickSetting("Weapon only", true));
         this.registerSetting(onlyWhileTargeting = new TickSetting("Only while targeting", false));
         this.registerSetting(R = new TickSetting("Right click", false));
-        this.registerSetting(blocksOnly = new TickSetting("Blocks only", true));
+        this.registerSetting(swordsOnly = new TickSetting("Only Blockhit", true));
         this.registerSetting(above5 = new TickSetting("Above 5 cps", false));
     }
 
@@ -88,9 +88,9 @@ public class ClickAssist extends Module {
                     if (this.engagedRight) {
                         this.engagedRight = false;
                     } else {
-                        if (blocksOnly.isToggled()) {
+                        if (swordsOnly.isToggled()) {
                             ItemStack item = mc.thePlayer.getHeldItem();
-                            if (item == null || !(item.getItem() instanceof ItemBlock)) {
+                            if (item == null || !(item.getItem() instanceof ItemSword)) {
                                 this.fix(1);
                                 return;
                             }
