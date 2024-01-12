@@ -2,6 +2,7 @@ package ravenweave.client.module.modules.combat;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.weavemc.loader.api.event.MouseEvent;
 import net.weavemc.loader.api.event.SubscribeEvent;
 import org.lwjgl.input.Mouse;
