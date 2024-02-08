@@ -30,7 +30,7 @@ public class BedAura extends Module {
 
     public BedAura() {
         super("BedAura", ModuleCategory.player);
-        this.registerSetting(new DescriptionSetting("Might silent flag on Hypixel."));
+        this.registerSetting(new DescriptionSetting("BedNuker for Non-Hypixel servers."));
         this.registerSetting(rangeInput = new SliderSetting("Range", 5.0D, 2.0D, 10.0D, 1.0D));
         this.registerSetting(bypassMode = new ComboSetting<>("Bypass Mode", BypassMode.NONE));
         this.registerSetting(bypassDistance = new SliderSetting("Bypass blocks", 1, 1, 5, 1));
@@ -91,14 +91,9 @@ public class BedAura extends Module {
                 if (!Utils.Player.isPlayerInGame()) return;
                 switch (state) {
                     case LOOKING_FOR_BED -> {
-                        if (!notifiedSearching) {
-                            Utils.Player.sendMessageToSelf("Looking for valid bed block");
-                            notifiedSearching = true;
-                        }
                         BedAura.this.bedPos = getClosestBedPosition((int) rangeInput.getInput());
                         // We'll check again next time
                         if (BedAura.this.bedPos != null) {
-                            Utils.Player.sendMessageToSelf("Found bed block at " + bedPos);
                             if (bypassMode.getMode() == BypassMode.NONE) {
                                 state = State.BREAKING_BED;
                             } else {
@@ -119,18 +114,10 @@ public class BedAura extends Module {
 
                             // Break the block
                             mineBlock(blockAbove);
-                            if (!notifiedBypassing) {
-                                Utils.Player.sendMessageToSelf("Mining Bypass Block");
-                                notifiedBypassing = true;
-                            }
                         }
                     }
                     case BREAKING_BED -> {
                         mineBlock(BedAura.this.bedPos);
-                        if (!notifiedBreaking) {
-                            Utils.Player.sendMessageToSelf("Mining Bed Block");
-                            notifiedBreaking = true;
-                        }
                     }
                 }
                 updateState();
@@ -141,7 +128,6 @@ public class BedAura extends Module {
     public void updateState() {
         if (this.bedPos == null) state = State.LOOKING_FOR_BED;
         else if (mc.theWorld.getBlockState(bedPos).getBlock() != Blocks.bed) {
-            Utils.Player.sendMessageToSelf("Broke bed");
             if (disableOnBreak.isToggled()) this.disable();
             state = State.LOOKING_FOR_BED;
         }
