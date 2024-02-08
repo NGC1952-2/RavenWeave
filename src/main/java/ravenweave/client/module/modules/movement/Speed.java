@@ -10,12 +10,12 @@ import ravenweave.client.utils.Utils;
 
 public class Speed extends Module {
     public static SliderSetting pspd;
-    public static TickSetting fastFall;
+    public static TickSetting lowhop;
 
     public Speed() {
         super("Speed", ModuleCategory.movement);
         this.registerSetting(pspd = new SliderSetting("Speed", 2.0D, 1.0D, 10.0D, 0.2D));
-        this.registerSetting(fastFall = new TickSetting("Lowhop", false));
+        this.registerSetting(lowhop = new TickSetting("Lowhop", false));
     }
 
     @SubscribeEvent
@@ -26,7 +26,7 @@ public class Speed extends Module {
                 mc.thePlayer.jump();
             }
 
-            if (Lowhop.isToggled()) {
+            if (lowhop.isToggled()) {
                 if (mc.thePlayer.fallDistance < 2 && mc.thePlayer.fallDistance > 0) {
                     mc.thePlayer.motionY *= 0.6;
                 }
